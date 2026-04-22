@@ -1,5 +1,6 @@
 import vehicles from '../data/vehicles.json';
 import VehicleCard from '../components/VehicleCard';
+import '../components/VehicleCard.css';
 
 function Catalogo() {
     return (
