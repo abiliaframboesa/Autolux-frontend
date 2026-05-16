@@ -5,11 +5,18 @@ import './App.css'
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 // estes componentes têm de existir dentro de cada pagina para que funcionem
-import Catalogo from './pages/Catalogo';
-import Contacto from "./pages/Contacto";
-import Favoritos from './pages/Favoritos';
 import Home from './pages/Home';
-import Sobre from './pages/Sobre';
+import Catalogo from './pages/Catalogo';
+import DetalheVeiculo from './pages/DetalheVeiculo';
+import Favoritos from './pages/Favoritos';
+import Contacto from "./pages/Contacto";
+import Sobre from "./pages/Sobre";
+
+
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import FilterBar from './components/FilterBar';
+import SearchBar from './components/SearchBar';
 
 
 // CRIAR A FUNÇÃO APP 
@@ -20,24 +27,43 @@ import Sobre from './pages/Sobre';
 // Router liga o link à página correspondente a ser mostrada
 
 function App() {
+
+  const [favoritos, setFavoritos] = useState([]);
+  
+  const toggleFavorito = (veiculo) => {
+    const existe = favoritos.find((v) => v.id === veiculo.id);
+
+    if (existe) {
+      setFavoritos(favoritos.filter((v) => v.id !== veiculo.id));
+    } else {
+      setFavoritos([...favoritos, veiculo]);
+    }
+  };
+
   return (
     <BrowserRouter>
-      <nav className='navbar'>
-        <Link to="/">Home</Link>
-        <Link to="/Catalogo">Catálogo</Link>
-        <Link to="/Favoritos">Favoritos</Link>
-        <Link to="/Sobre">Sobre</Link>
-        <Link to="/Contacto">Contato</Link>
-      </nav>
-    
+
+      {/* a navbar e o footer podiam ter ficado aqui */}
+      <Navbar favoritos={favoritos} />
+      
+
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Catalogo" element={<Catalogo />} />
-        <Route path="/Favoritos" element={<Favoritos />} />
-        <Route path="/Sobre" element={<Sobre />} />
-        <Route path="/Contacto" element={<Contacto />} />
+        <Route path="/catalogo" element={<Catalogo favoritos={favoritos}
+          toggleFavorito={toggleFavorito} />} />
+        <Route path="/veiculo/:id" element={<DetalheVeiculo favoritos={favoritos}
+          toggleFavorito={toggleFavorito} />} />
+        <Route path="/favoritos" element={<Favoritos favoritos={favoritos}
+          toggleFavorito={toggleFavorito} />} />
+        <Route path="/contacto" element={<Contacto />} />
+        <Route path="/sobre" element={<Sobre />} />
       </Routes>
+
+      <Footer />
+
     </BrowserRouter>
+
+
   )
 }
 
