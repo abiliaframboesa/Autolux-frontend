@@ -3,7 +3,7 @@ import vehicles from '../data/vehicles.json';
 import VehicleCard from '../components/VehicleCard';
 import '../components/VehicleCard.css';
 
-function Catalogo() {
+function Catalogo({ favoritos, toggleFavorito }) {
     const [marca, setMarca] = useState("");
     const [combustivel, setCombustivel] = useState("");
     const [precoMax, setPrecoMax] = useState("");
@@ -55,7 +55,7 @@ function Catalogo() {
 
             {/* MAPEAR VEÍCULOS */}
             {filtrados.map((v) => (
-                <VehicleCard key={v.id} {...v} />
+                <VehicleCard key={v.id} {...v} favoritos={favoritos} toggleFavorito={toggleFavorito} />
             ))}
         </div>
     )
@@ -63,6 +63,12 @@ function Catalogo() {
 
 export default Catalogo;
 
+// useEffect(() => {
+//     fetch("/vehicles.json")
+//         .then(res => res.json())
+//         .then(data => setCars(data));
+// },
+//     []);
 
 
 // {/* {vehicles.map((v) => (
